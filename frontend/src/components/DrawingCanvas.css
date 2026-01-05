@@ -1,0 +1,55 @@
+.board {
+  background: #465da0;
+  border-radius: 20px;
+  padding: 20px;
+  width: 790px;
+  border: 5px solid #4a54c1;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.canvas-surface {
+  background: #ffffff;
+  border-radius: 14px;
+  display: block;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.palette {
+  display: flex;
+  gap: 10px;
+}
+
+.color-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #dee0e3;
+}
+
+.color-btn.active {
+  border: 3px solid #ffffff;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  background: #cedbee;
+  color: #1e293b;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.action-btn.primary {
+  background: #2e30ad;
+  color: #e0e1e4;
+}
