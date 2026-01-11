@@ -5,6 +5,8 @@ function App() {
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleShare = async (formData) => {
     if (loading) return;
 
@@ -12,7 +14,7 @@ function App() {
       setLoading(true);
       setResult("Processing…");
 
-      const res = await fetch("http://localhost:5000/process-image", {
+      const res = await fetch(`${API_URL}/process-image`, {
         method: "POST",
         body: formData,
       });
