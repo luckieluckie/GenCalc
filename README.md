@@ -29,3 +29,6 @@ GenCalc/
 - cd frontend
 - npm install
 - npm start
+
+# Important Point
+- This project uses Gemini free-tier API. For demo purposes, usage is limited and the key can be rotated when quota is exhausted.
