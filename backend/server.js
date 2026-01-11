@@ -11,9 +11,13 @@ const fetch = (...args) =>
 const app = express();
 const port = process.env.PORT || 5000;
 
-// ------------------ Middleware ------------------
-app.use(express.json());
+// ------------------ Checking Backend ------------------
+app.get("/", (req, res) => {
+  res.send("Backend alive. Routes loaded.");
+});
 
+app.use(express.json());
+// ------------------ Middleware ------------------
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "http://localhost:3000",
