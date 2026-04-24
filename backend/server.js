@@ -18,11 +18,7 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 // ------------------ Middleware ------------------
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-  })
-);
+app.use(cors());
 
 // ------------------ Multer (in-memory upload) ------------------
 const upload = multer({

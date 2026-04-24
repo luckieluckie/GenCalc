@@ -1,39 +1,60 @@
 .board {
-  background: #465da0;
+  background: rgba(13, 18, 14, 0.4);
   border-radius: 20px;
-  padding: 20px;
+  padding: 24px;
   width: 790px;
-  border: 5px solid #4a54c1;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  max-width: 95vw;
+  box-sizing: border-box;
+  border: 1px solid rgba(79, 163, 104, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(79, 163, 104, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .canvas-surface {
-  background: #ffffff;
+  background: #f0f7f2;
   border-radius: 14px;
   display: block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  cursor: crosshair;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 740 / 500;
+  touch-action: none;
 }
 
 .controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .palette {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .color-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2px solid #dee0e3;
+  border: 2px solid rgba(255,255,255,0.2);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.color-btn:hover {
+  transform: scale(1.15);
 }
 
 .color-btn.active {
   border: 3px solid #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(255,255,255,0.4);
 }
 
 .actions {
@@ -42,14 +63,33 @@
 }
 
 .action-btn {
-  background: #cedbee;
-  color: #1e293b;
-  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+  padding: 10px 20px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.action-btn:active {
+  transform: translateY(0);
 }
 
 .action-btn.primary {
-  background: #2e30ad;
-  color: #e0e1e4;
+  background: linear-gradient(135deg, #4fa368, #2a633c);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 15px rgba(79, 163, 104, 0.4);
+}
+
+.action-btn.primary:hover {
+  background: linear-gradient(135deg, #5bb876, #327546);
+  box-shadow: 0 6px 20px rgba(79, 163, 104, 0.6);
 }

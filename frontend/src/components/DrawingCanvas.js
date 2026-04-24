@@ -31,6 +31,11 @@ export default function DrawingCanvas({ onShare }) {
     ctx.lineCap = "round";
     ctx.lineWidth = 4;
     ctx.strokeStyle = color;
+    
+    // Fill canvas with a soft moss green-white initially
+    ctx.fillStyle = "#f0f7f2";
+    ctx.fillRect(0, 0, 740, 500);
+
     ctxRef.current = ctx;
   }, []);
 
@@ -38,15 +43,38 @@ export default function DrawingCanvas({ onShare }) {
     if (ctxRef.current) ctxRef.current.strokeStyle = color;
   }, [color]);
 
+  const getCoordinates = (e) => {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    } else {
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
+    };
+  };
+
   const start = (e) => {
+    const { x, y } = getCoordinates(e);
     ctxRef.current.beginPath();
-    ctxRef.current.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    ctxRef.current.moveTo(x, y);
     setDrawing(true);
   };
 
   const draw = (e) => {
     if (!drawing) return;
-    ctxRef.current.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+    const { x, y } = getCoordinates(e);
+    ctxRef.current.lineTo(x, y);
     ctxRef.current.stroke();
   };
 
@@ -61,16 +89,23 @@ export default function DrawingCanvas({ onShare }) {
     if (!history.length) return;
     const newHistory = history.slice(0, -1);
     setHistory(newHistory);
-    const img = new Image();
-    img.src = newHistory[newHistory.length - 1];
-    img.onload = () => {
-      ctxRef.current.clearRect(0, 0, 740, 500);
-      if (newHistory.length) ctxRef.current.drawImage(img, 0, 0);
-    };
+    
+    // Always fill soft green-white before drawing previous state, or as the blank state
+    ctxRef.current.fillStyle = "#f0f7f2";
+    ctxRef.current.fillRect(0, 0, 740, 500);
+
+    if (newHistory.length) {
+      const img = new Image();
+      img.src = newHistory[newHistory.length - 1];
+      img.onload = () => {
+        ctxRef.current.drawImage(img, 0, 0);
+      };
+    }
   };
 
   const reset = () => {
-    ctxRef.current.clearRect(0, 0, 740, 500);
+    ctxRef.current.fillStyle = "#f0f7f2";
+    ctxRef.current.fillRect(0, 0, 740, 500);
     setHistory([]);
   };
 
@@ -97,6 +132,10 @@ export default function DrawingCanvas({ onShare }) {
         onMouseMove={draw}
         onMouseUp={stop}
         onMouseLeave={stop}
+        onTouchStart={start}
+        onTouchMove={draw}
+        onTouchEnd={stop}
+        onTouchCancel={stop}
         />
 
         <div className="controls">
