@@ -30,7 +30,7 @@ export default function DrawingCanvas({ onShare }) {
     const ctx = canvas.getContext("2d");
     ctx.lineCap = "round";
     ctx.lineWidth = 4;
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = "#000000";
     
     // Fill canvas with a soft moss green-white initially
     ctx.fillStyle = "#f0f7f2";
