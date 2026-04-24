@@ -17,10 +17,12 @@ const colors = [
 export default function DrawingCanvas({ onShare }) {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const [drawing, setDrawing] = useState(false);
   const [color, setColor] = useState("#000000");
   const [history, setHistory] = useState([]);
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -122,6 +124,25 @@ export default function DrawingCanvas({ onShare }) {
     }, "image/png");
   };
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedImage(imageUrl);
+
+    const formData = new FormData();
+    formData.append("image", file, file.name);
+    onShare(formData);
+    
+    e.target.value = null; // Reset for subsequent uploads
+  };
+
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <div className="board">
@@ -138,6 +159,13 @@ export default function DrawingCanvas({ onShare }) {
         onTouchCancel={stop}
         />
 
+        {uploadedImage && (
+          <div className="image-preview-container">
+            <img src={uploadedImage} alt="Uploaded math" className="preview-image" />
+            <button className="remove-image-btn" onClick={() => setUploadedImage(null)}>✕</button>
+          </div>
+        )}
+
         <div className="controls">
         <div className="palette">
             {colors.map((c) => (
@@ -151,9 +179,17 @@ export default function DrawingCanvas({ onShare }) {
         </div>
 
         <div className="actions">
+            <input 
+              type="file" 
+              accept="image/*" 
+              ref={fileInputRef} 
+              style={{ display: "none" }} 
+              onChange={handleFileUpload} 
+            />
             <button className="action-btn" onClick={undo}>Undo</button>
             <button className="action-btn" onClick={reset}>Reset</button>
-            <button className="action-btn primary" onClick={share}>Share</button>
+            <button className="action-btn primary" onClick={triggerFileInput}>Upload Image</button>
+            <button className="action-btn primary" onClick={share}>Share Canvas</button>
         </div>
         </div>
     </div>

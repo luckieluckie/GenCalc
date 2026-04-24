@@ -93,3 +93,46 @@
   background: linear-gradient(135deg, #5bb876, #327546);
   box-shadow: 0 6px 20px rgba(79, 163, 104, 0.6);
 }
+
+.image-preview-container {
+  position: relative;
+  margin-top: 16px;
+  padding: 10px;
+  background: rgba(13, 18, 14, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(79, 163, 104, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.remove-image-btn:hover {
+  background: #dc2626;
+}
