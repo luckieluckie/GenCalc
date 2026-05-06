@@ -11,7 +11,7 @@ const colors = [
   "#06b6d4",
   "#f97316",
   "#a855f7",
-  "#ffffff",
+  "#f0f7f2",
 ];
 
 export default function DrawingCanvas({ onShare }) {
@@ -33,7 +33,7 @@ export default function DrawingCanvas({ onShare }) {
     ctx.lineCap = "round";
     ctx.lineWidth = 4;
     ctx.strokeStyle = "#000000";
-    
+
     // Fill canvas with a soft moss green-white initially
     ctx.fillStyle = "#f0f7f2";
     ctx.fillRect(0, 0, 740, 500);
@@ -91,7 +91,7 @@ export default function DrawingCanvas({ onShare }) {
     if (!history.length) return;
     const newHistory = history.slice(0, -1);
     setHistory(newHistory);
-    
+
     // Always fill soft green-white before drawing previous state, or as the blank state
     ctxRef.current.fillStyle = "#f0f7f2";
     ctxRef.current.fillRect(0, 0, 740, 500);
@@ -115,12 +115,12 @@ export default function DrawingCanvas({ onShare }) {
     const canvas = canvasRef.current;
 
     canvas.toBlob((blob) => {
-        if (!blob) return;
+      if (!blob) return;
 
-        const formData = new FormData();
-        formData.append("image", blob, "canvas.png");
+      const formData = new FormData();
+      formData.append("image", blob, "canvas.png");
 
-        onShare(formData);
+      onShare(formData);
     }, "image/png");
   };
 
@@ -134,7 +134,7 @@ export default function DrawingCanvas({ onShare }) {
     const formData = new FormData();
     formData.append("image", file, file.name);
     onShare(formData);
-    
+
     e.target.value = null; // Reset for subsequent uploads
   };
 
@@ -146,7 +146,7 @@ export default function DrawingCanvas({ onShare }) {
 
   return (
     <div className="board">
-        <canvas
+      <canvas
         ref={canvasRef}
         className="canvas-surface"
         onMouseDown={start}
@@ -157,42 +157,42 @@ export default function DrawingCanvas({ onShare }) {
         onTouchMove={draw}
         onTouchEnd={stop}
         onTouchCancel={stop}
-        />
+      />
 
-        {uploadedImage && (
-          <div className="image-preview-container">
-            <img src={uploadedImage} alt="Uploaded math" className="preview-image" />
-            <button className="remove-image-btn" onClick={() => setUploadedImage(null)}>✕</button>
-          </div>
-        )}
+      {uploadedImage && (
+        <div className="image-preview-container">
+          <img src={uploadedImage} alt="Uploaded math" className="preview-image" />
+          <button className="remove-image-btn" onClick={() => setUploadedImage(null)}>✕</button>
+        </div>
+      )}
 
-        <div className="controls">
+      <div className="controls">
         <div className="palette">
-            {colors.map((c) => (
+          {colors.map((c) => (
             <button
-                key={c}
-                className={`color-btn ${color === c ? "active" : ""}`}
-                style={{ background: c }}
-                onClick={() => setColor(c)}
+              key={c}
+              className={`color-btn ${color === c ? "active" : ""}`}
+              style={{ background: c }}
+              onClick={() => setColor(c)}
             />
-            ))}
+          ))}
         </div>
 
         <div className="actions">
-            <input 
-              type="file" 
-              accept="image/*" 
-              ref={fileInputRef} 
-              style={{ display: "none" }} 
-              onChange={handleFileUpload} 
-            />
-            <button className="action-btn" onClick={undo}>Undo</button>
-            <button className="action-btn" onClick={reset}>Reset</button>
-            <button className="action-btn primary" onClick={triggerFileInput}>Upload Image</button>
-            <button className="action-btn primary" onClick={share}>Share Canvas</button>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+          />
+          <button className="action-btn" onClick={undo}>Undo</button>
+          <button className="action-btn" onClick={reset}>Reset</button>
+          <button className="action-btn primary" onClick={triggerFileInput}>Upload Image</button>
+          <button className="action-btn primary" onClick={share}>Share Canvas</button>
         </div>
-        </div>
+      </div>
     </div>
-    );
+  );
 
 }

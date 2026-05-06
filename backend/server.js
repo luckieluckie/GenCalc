@@ -63,10 +63,10 @@ app.post("/process-image", upload.single("image"), async (req, res) => {
     const base64Image = req.file.buffer.toString("base64");
 
     const instruction =
-      'Calculate the equation given in the image.'+
-      ' Use only the symbols +, -, *, / and parenthesis.'+
-      ' Detect decimals (e.g. 2.5 + 3.5).'+
-      ' Return only the computed numeric solution and short explanation if needed.';
+      'You are an advanced AI solver. Analyze the provided image which may contain mathematical equations (from basic arithmetic to calculus), word problems, or general questions. ' +
+      'Solve the problem step-by-step and provide a clear, accurate final answer. ' +
+      'If it is a math problem, show your working. ' +
+      'If it is a general question, provide a detailed and helpful response.';
 
     const requestBody = {
       contents: [
@@ -86,7 +86,7 @@ app.post("/process-image", upload.single("image"), async (req, res) => {
       ],
     };
 
-    const url = `https://generativelanguage.googleapis.com/v1/${MODEL_ID}:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/${MODEL_ID}:generateContent?key=${GEMINI_API_KEY}`;
 
     const response = await fetch(url, {
       method: "POST",
@@ -100,8 +100,9 @@ app.post("/process-image", upload.single("image"), async (req, res) => {
 
     if (!response.ok) {
       console.error("❌ Gemini API error:", data);
+      const errorMessage = data?.error?.message || "Gemini API failed";
       return res.status(500).json({
-        error: "Gemini API failed",
+        error: `Gemini Error: ${errorMessage}`,
         details: data,
       });
     }
