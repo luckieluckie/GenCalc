@@ -131,9 +131,22 @@ export default function DrawingCanvas({ onShare }) {
     const imageUrl = URL.createObjectURL(file);
     setUploadedImage(imageUrl);
 
-    const formData = new FormData();
-    formData.append("image", file, file.name);
-    onShare(formData);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        const formData = new FormData();
+        formData.append("image", blob, "uploaded_image.png");
+        onShare(formData);
+      }, "image/png");
+    };
+    img.src = imageUrl;
 
     e.target.value = null; // Reset for subsequent uploads
   };
